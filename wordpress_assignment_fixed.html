@@ -1,0 +1,282 @@
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:Georgia,serif;background:#f0f4f8;color:#1a1a1a;min-height:100vh;}
+  .site-header{background:#1a3a5c;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.4);}
+  .header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .site-title{font-size:22px;font-weight:700;color:#f0c040;letter-spacing:1px;cursor:pointer;}
+  nav{display:flex;gap:0;}
+  .nav-item{position:relative;}
+  .nav-link{display:block;padding:0 16px;height:60px;line-height:60px;color:#d0e8ff;font-size:14px;cursor:pointer;transition:background .2s,color .2s;white-space:nowrap;font-family:Arial,sans-serif;}
+  .nav-link:hover,.nav-item.active .nav-link{background:rgba(255,255,255,0.15);color:#ffffff;}
+  .nav-item.has-dropdown:hover .dropdown{display:block;}
+  .dropdown{display:none;position:absolute;top:100%;left:0;background:#0e2840;min-width:210px;border-top:3px solid #f0c040;box-shadow:0 6px 20px rgba(0,0,0,0.5);z-index:200;}
+  .dropdown a{display:block;padding:12px 20px;color:#cce4ff;font-size:13px;cursor:pointer;font-family:Arial,sans-serif;transition:background .15s,color .15s;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .dropdown a:hover{background:#1a5080;color:#f0c040;}
+  .page{display:none;}
+  .page.active{display:block;}
+  .wrap{max-width:1100px;margin:0 auto;padding:2rem;}
+  .hero{background:#1a3a5c;color:#ffffff;border-radius:12px;padding:3rem 2.5rem;margin-bottom:2rem;}
+  .hero h1{font-size:30px;margin-bottom:10px;color:#f0c040;}
+  .hero p{font-size:15px;color:#cce4ff;line-height:1.7;}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-bottom:2rem;}
+  .card{background:#ffffff;border:1px solid #c8d8e8;border-radius:12px;padding:1.4rem;cursor:pointer;transition:box-shadow .2s;}
+  .card:hover{box-shadow:0 4px 16px rgba(26,58,92,0.12);}
+  .card-icon{font-size:26px;margin-bottom:10px;}
+  .card h3{font-size:15px;font-weight:600;margin-bottom:6px;color:#1a3a5c;}
+  .card p{font-size:13px;color:#445566;line-height:1.6;}
+  .page-title{font-size:26px;font-weight:700;margin-bottom:4px;color:#1a3a5c;}
+  .page-subtitle{font-size:13px;color:#556677;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid #c8d8e8;font-family:Arial,sans-serif;}
+  .duplicate-badge{display:inline-block;background:#d4edda;color:#155724;font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid #8fbe9f;margin-left:10px;vertical-align:middle;font-family:Arial,sans-serif;}
+  .section{background:#ffffff;border:1px solid #c8d8e8;border-radius:12px;padding:1.5rem;margin-bottom:1.2rem;}
+  .section h2{font-size:17px;font-weight:600;margin-bottom:10px;color:#1a3a5c;}
+  .section p{font-size:14px;line-height:1.7;color:#334455;}
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;}
+  .team-card{text-align:center;padding:1rem;}
+  .team-card strong{display:block;font-size:14px;color:#1a3a5c;margin-bottom:4px;}
+  .team-card p{font-size:12px;color:#556677;}
+  .avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;}
+  .service-list{list-style:none;padding:0;}
+  .service-list li{padding:10px 0;border-bottom:1px solid #dde8f0;font-size:14px;color:#223344;display:flex;align-items:flex-start;gap:10px;}
+  .service-list li:last-child{border:none;}
+  .check{color:#1a7a3a;font-size:15px;margin-top:1px;flex-shrink:0;}
+  .contact-form{display:flex;flex-direction:column;gap:10px;}
+  .contact-form input,.contact-form textarea{padding:10px 14px;border:1px solid #b0c8e0;border-radius:8px;font-size:14px;font-family:Arial,sans-serif;background:#f8fafc;color:#1a1a1a;}
+  .contact-form textarea{height:100px;resize:vertical;}
+  .btn{background:#1a3a5c;color:#ffffff;border:none;padding:10px 24px;border-radius:8px;font-size:14px;cursor:pointer;font-family:Arial,sans-serif;transition:background .2s;}
+  .btn:hover{background:#2563a8;}
+  .btn-gold{background:#f0c040;color:#1a2a00;font-weight:700;}
+  .btn-gold:hover{background:#d4a800;}
+  .breadcrumb{font-size:12px;color:#556677;margin-bottom:1rem;font-family:Arial,sans-serif;}
+  .breadcrumb span{color:#2563a8;cursor:pointer;}
+  .breadcrumb span:hover{text-decoration:underline;}
+  .info-pill{background:#e8f0fa;color:#1a3a5c;border:1px solid #b0c8e0;border-radius:20px;padding:5px 14px;font-size:12px;font-family:Arial,sans-serif;display:inline-block;margin:0 6px 6px 0;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:600px){.contact-grid{grid-template-columns:1fr;}}
+  footer{background:#0e2035;color:#8bb4cc;text-align:center;padding:1.2rem;font-size:13px;font-family:Arial,sans-serif;margin-top:2rem;}
+</style>
+
+<div class="site-header">
+  <div class="header-inner">
+    <div class="site-title" onclick="showPage('home')">&#9670; BrightEdge</div>
+    <nav>
+      <div class="nav-item" id="nav-home">
+        <div class="nav-link" onclick="showPage('home')">Home</div>
+      </div>
+      <div class="nav-item has-dropdown" id="nav-services">
+        <div class="nav-link" onclick="showPage('services')">Services &#9662;</div>
+        <div class="dropdown">
+          <a onclick="showPage('web-design')">&#9671; Web Design</a>
+          <a onclick="showPage('seo')">&#9671; SEO Optimization</a>
+          <a onclick="showPage('branding')">&#9671; Branding &amp; Identity</a>
+          <a onclick="showPage('consulting')">&#9671; Digital Consulting</a>
+        </div>
+      </div>
+      <div class="nav-item" id="nav-about">
+        <div class="nav-link" onclick="showPage('about')">About Us</div>
+      </div>
+      <div class="nav-item" id="nav-about-copy">
+        <div class="nav-link" onclick="showPage('about-copy')">About (Copy)</div>
+      </div>
+      <div class="nav-item" id="nav-contact">
+        <div class="nav-link" onclick="showPage('contact')">Contact</div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="wrap">
+    <div class="hero">
+      <h1>Welcome to BrightEdge Digital</h1>
+      <p>We help businesses grow online with modern web design, SEO, and strategic branding. Explore our services or get in touch today.</p>
+      <br>
+      <button class="btn btn-gold" onclick="showPage('services')">Explore Services &#8594;</button>
+    </div>
+    <div class="card-grid">
+      <div class="card" onclick="showPage('web-design')">
+        <div class="card-icon">&#128187;</div>
+        <h3>Web Design</h3>
+        <p>Beautiful, responsive websites that convert visitors into customers.</p>
+      </div>
+      <div class="card" onclick="showPage('seo')">
+        <div class="card-icon">&#128200;</div>
+        <h3>SEO Optimization</h3>
+        <p>Rank higher on Google and drive targeted organic traffic to your site.</p>
+      </div>
+      <div class="card" onclick="showPage('branding')">
+        <div class="card-icon">&#127775;</div>
+        <h3>Branding &amp; Identity</h3>
+        <p>Memorable brand identities that tell your unique story to the world.</p>
+      </div>
+      <div class="card" onclick="showPage('contact')">
+        <div class="card-icon">&#128222;</div>
+        <h3>Get In Touch</h3>
+        <p>Ready to start? Contact us today for a free consultation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="page" id="page-services">
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span> &rsaquo; Services</div>
+    <h1 class="page-title">Our Services</h1>
+    <p class="page-subtitle">Comprehensive digital solutions for growing businesses</p>
+    <div class="section">
+      <ul class="service-list">
+        <li><span class="check">&#10003;</span><span><strong style="color:#1a3a5c;">Web Design &amp; Development</strong> — Custom, responsive websites built to convert</span></li>
+        <li><span class="check">&#10003;</span><span><strong style="color:#1a3a5c;">SEO Optimization</strong> — Higher rankings &amp; more organic traffic</span></li>
+        <li><span class="check">&#10003;</span><span><strong style="color:#1a3a5c;">Branding &amp; Identity</strong> — Logo, colors, typography &amp; brand voice</span></li>
+        <li><span class="check">&#10003;</span><span><strong style="color:#1a3a5c;">Digital Consulting</strong> — Strategy sessions &amp; roadmap planning</span></li>
+        <li><span class="check">&#10003;</span><span><strong style="color:#1a3a5c;">Content Marketing</strong> — Blog posts, social media &amp; email campaigns</span></li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>Why Choose BrightEdge?</h2>
+      <p>With over 8 years of experience serving clients across industries, our team delivers measurable results. Every project starts with deep research, transparent communication, and a clear strategy tailored to your business goals.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WEB DESIGN -->
+<div class="page" id="page-web-design">
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span> &rsaquo; <span onclick="showPage('services')">Services</span> &rsaquo; Web Design</div>
+    <h1 class="page-title">Web Design &amp; Development</h1>
+    <p class="page-subtitle">Modern, fast, mobile-first websites that rank and convert</p>
+    <div class="card-grid">
+      <div class="card"><div class="card-icon">&#128736;</div><h3>Custom Design</h3><p>Every site is built from scratch — no generic templates, ever.</p></div>
+      <div class="card"><div class="card-icon">&#128241;</div><h3>Mobile-First</h3><p>Flawless experience on phones, tablets, and desktops.</p></div>
+      <div class="card"><div class="card-icon">&#9889;</div><h3>Fast Loading</h3><p>Optimized code and images for sub-2-second load times.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SEO -->
+<div class="page" id="page-seo">
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span> &rsaquo; <span onclick="showPage('services')">Services</span> &rsaquo; SEO Optimization</div>
+    <h1 class="page-title">SEO Optimization</h1>
+    <p class="page-subtitle">Get found by the right people at the right time</p>
+    <div class="section"><h2>What We Do</h2><p>Our SEO team conducts in-depth keyword research, on-page optimization, link building, and monthly reporting so you always know exactly where you stand in the rankings.</p></div>
+    <div class="section"><h2>Our Results</h2><p>Clients see an average of 3x organic traffic growth within 6 months. We focus on sustainable, white-hat techniques that stand the test of time.</p></div>
+  </div>
+</div>
+
+<!-- BRANDING -->
+<div class="page" id="page-branding">
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span> &rsaquo; <span onclick="showPage('services')">Services</span> &rsaquo; Branding</div>
+    <h1 class="page-title">Branding &amp; Identity</h1>
+    <p class="page-subtitle">A brand that stands out and stays memorable</p>
+    <div class="section"><h2>Brand Strategy</h2><p>We begin with a deep-dive workshop to understand your audience, competitors, and values. From this foundation, we craft a positioning that sets you apart.</p></div>
+    <div class="section"><h2>Visual Identity</h2><p>Logo design, color palette, typography system, and brand guidelines delivered in a comprehensive style guide for consistent use across all channels.</p></div>
+  </div>
+</div>
+
+<!-- CONSULTING -->
+<div class="page" id="page-consulting">
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span> &rsaquo; <span onclick="showPage('services')">Services</span> &rsaquo; Consulting</div>
+    <h1 class="page-title">Digital Consulting</h1>
+    <p class="page-subtitle">Strategic guidance for your digital transformation</p>
+    <div class="section"><h2>Strategy Sessions</h2><p>One-on-one sessions with our senior consultants to assess your current digital presence and define a 12-month growth roadmap tailored to your goals.</p></div>
+    <div class="section"><h2>Who It's For</h2><p>Whether you're a startup launching your first product or an established company pivoting online, our consulting service meets you where you are.</p></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="page-about">
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span> &rsaquo; About Us</div>
+    <h1 class="page-title">About Us</h1>
+    <p class="page-subtitle">A team of digital experts passionate about your success</p>
+    <div class="section" style="margin-bottom:1.2rem;">
+      <h2>Our Story</h2>
+      <p>Founded in 2016, BrightEdge Digital started with a simple mission: make professional digital services accessible to businesses of all sizes. Today we are a team of 12 specialists serving over 200 clients worldwide.</p>
+    </div>
+    <div class="section">
+      <h2>Our Team</h2>
+      <div class="team-grid">
+        <div class="team-card"><div class="avatar" style="background:#dce8f8;color:#0d2a4a;">AK</div><strong>Ali Khan</strong><p>Founder &amp; CEO</p></div>
+        <div class="team-card"><div class="avatar" style="background:#d4edda;color:#0a3a1a;">SM</div><strong>Sara Malik</strong><p>Lead Designer</p></div>
+        <div class="team-card"><div class="avatar" style="background:#fff3cd;color:#5a3800;">ZA</div><strong>Zain Ahmed</strong><p>SEO Specialist</p></div>
+        <div class="team-card"><div class="avatar" style="background:#f8d7da;color:#5a0a12;">NA</div><strong>Nadia Ali</strong><p>Dev Lead</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT COPY -->
+<div class="page" id="page-about-copy">
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span> &rsaquo; About Us (Copy)</div>
+    <h1 class="page-title">About Us <span class="duplicate-badge">&#128260; Duplicated Page</span></h1>
+    <p class="page-subtitle">Duplicated from "About Us" using the Duplicate Page plugin — content modified to maintain uniqueness</p>
+    <div style="margin-bottom:1rem;">
+      <span class="info-pill">&#128260; Duplicated via plugin</span>
+      <span class="info-pill">&#9999; Content modified</span>
+      <span class="info-pill">&#128196; Structure preserved</span>
+    </div>
+    <div class="section" style="margin-bottom:1.2rem;">
+      <h2>Our Mission</h2>
+      <p><em>Modified content:</em> At BrightEdge Digital, our mission goes beyond building websites. We empower entrepreneurs and established businesses alike to compete and thrive in the digital-first world through smart strategy, great design, and measurable results.</p>
+    </div>
+    <div class="section">
+      <h2>Core Values</h2>
+      <div class="team-grid">
+        <div class="team-card"><div class="avatar" style="background:#dce8f8;color:#0d2a4a;font-size:20px;">&#128161;</div><strong>Innovation</strong><p>Always pushing boundaries</p></div>
+        <div class="team-card"><div class="avatar" style="background:#d4edda;color:#0a3a1a;font-size:20px;">&#129309;</div><strong>Integrity</strong><p>Honest &amp; transparent always</p></div>
+        <div class="team-card"><div class="avatar" style="background:#fff3cd;color:#5a3800;font-size:20px;">&#127775;</div><strong>Excellence</strong><p>High quality in everything</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span> &rsaquo; Contact</div>
+    <h1 class="page-title">Contact Us</h1>
+    <p class="page-subtitle">Get in touch — we respond within 24 hours</p>
+    <div class="contact-grid">
+      <div class="section">
+        <h2>Send a Message</h2>
+        <div class="contact-form" style="margin-top:12px;">
+          <input type="text" placeholder="Your Name">
+          <input type="email" placeholder="Email Address">
+          <input type="text" placeholder="Subject">
+          <textarea placeholder="Your message..."></textarea>
+          <button class="btn">Send Message &#8594;</button>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Contact Info</h2>
+        <ul class="service-list" style="margin-top:12px;">
+          <li>&#128205; 123 Digital Ave, Karachi, Pakistan</li>
+          <li>&#128222; +92 300 123 4567</li>
+          <li>&#128231; hello@brightedge.pk</li>
+          <li>&#128336; Mon–Fri, 9am–6pm PKT</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 BrightEdge Digital &mdash; WordPress Assignment Demo &mdash; All pages linked &amp; published
+</footer>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  var pg=document.getElementById('page-'+id);
+  if(pg) pg.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  var map={home:'nav-home',services:'nav-services','web-design':'nav-services',seo:'nav-services',branding:'nav-services',consulting:'nav-services',about:'nav-about','about-copy':'nav-about-copy',contact:'nav-contact'};
+  if(map[id]) document.getElementById(map[id]).classList.add('active');
+}
+</script>
